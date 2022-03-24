@@ -6,16 +6,16 @@ from skimage.segmentation import slic
 
 
 class Focaccia:
-  def __init__ (self, path: str, target_point: tuple[int, int], lambda_: float, inside: bool):
+  def __init__ (self, path, target_point, lambda_, inside):
     self.lambda_ = lambda_
     self.inside = inside
     self.attach_image(path)
     self.attach_mask(target_point)
 
-  def attach_image (self, path: str):
+  def attach_image (self, path):
     self.img = imread(path)[:, :, :3] / 255
   
-  def attach_mask (self, target_point: tuple[int, int]):
+  def attach_mask (self, target_point):
     segment = slic(self.img, n_segments=100, compactness=10, sigma=1, start_label=1)
     self.mask = (segment == segment[target_point[0], target_point[1]])
 

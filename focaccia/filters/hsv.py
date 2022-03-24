@@ -7,15 +7,15 @@ from ..focaccia import Focaccia
 class focacciaHsv(Focaccia):
     def __init__(
         self,
-        path: str,
-        target_point: tuple[int, int],
-        lambda_: float,
-        inside: bool = True,
+        path,
+        target_point,
+        lambda_,
+        inside = True,
     ):
         super().__init__(path, target_point, lambda_, inside)
         self.switch(True, True, True)
 
-    def apply(self, h_mul: float, s_mul: float, v_mul: float):
+    def apply(self, h_mul, s_mul, v_mul):
         hsv_img = rgb2hsv(self.img)
         applied_hsv_img = hsv_img.copy()
         applied_hsv_img[:, :, 0] = applied_hsv_img[:, :, 0] * h_mul
@@ -26,7 +26,7 @@ class focacciaHsv(Focaccia):
         ]
         return hsv2rgb(applied_hsv_img)
 
-    def function(self, h_mul: float, s_mul: float, v_mul: float):
+    def function(self, h_mul, s_mul, v_mul):
         output = self.apply(h_mul, s_mul, v_mul)
         return self.score(output)
 
@@ -36,7 +36,7 @@ class focacciaHsv(Focaccia):
         v_mul = trial.suggest_uniform("v_mul", 0, 1) if self.v_switch else 1.0
         return self.function(h_mul, s_mul, v_mul)
 
-    def optimize(self, n_trials: int):
+    def optimize(self, n_trials):
         study = optuna.create_study(direction="minimize")
         study.optimize(self.objective, n_trials=n_trials)
         self.best_h_mul = study.best_params["h_mul"] if self.h_switch else 1.0
@@ -45,7 +45,7 @@ class focacciaHsv(Focaccia):
         self.applied = self.apply(self.best_h_mul, self.best_s_mul, self.best_v_mul)
         print(self.best_h_mul, self.best_s_mul, self.best_v_mul)
 
-    def switch(self, h_switch: bool, s_switch: bool, v_switch: bool):
+    def switch(self, h_switch, s_switch, v_switch):
         self.h_switch = h_switch
         self.s_switch = s_switch
         self.v_switch = v_switch

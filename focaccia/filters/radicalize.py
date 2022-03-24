@@ -8,14 +8,14 @@ from ..focaccia import Focaccia
 class focacciaRadicalize(Focaccia):
     def __init__(
         self,
-        path: str,
-        target_point: tuple[int, int],
-        lambda_: float,
-        inside: bool = True,
+        path,
+        target_point,
+        lambda_,
+        inside = True,
     ):
         super().__init__(path, target_point, lambda_, inside)
 
-    def apply(self, k: float):
+    def apply(self, k):
         bgr_image = self.toBgr()
         kernel = np.array(
             [
@@ -32,7 +32,7 @@ class focacciaRadicalize(Focaccia):
         ]
         return self.bgr2rgb(applied_image)
 
-    def function(self, k: float):
+    def function(self, k):
         output = self.apply(k)
         return self.score(output)
 
@@ -40,7 +40,7 @@ class focacciaRadicalize(Focaccia):
         k = trial.suggest_uniform("k", -100, 100)
         return self.function(k)
 
-    def optimize(self, n_trials: int):
+    def optimize(self, n_trials):
         study = optuna.create_study(direction="minimize")
         study.optimize(self.objective, n_trials=n_trials)
         self.best_k = study.best_params["k"]

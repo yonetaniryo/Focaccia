@@ -7,23 +7,23 @@ from ..focaccia import Focaccia
 class focacciaEllipse(Focaccia):
     def __init__(
         self,
-        path: str,
-        target_point: tuple[int, int],
-        lambda_: float,
-        inside: bool = True,
+        path,
+        target_point,
+        lambda_,
+        inside = True,
     ):
         super().__init__(path, target_point, lambda_, inside)
         self.center = target_point
 
     def apply(
         self,
-        axes_x: float,
-        axes_y: float,
-        angle: float,
-        color_b: float,
-        color_g: float,
-        color_r: float,
-        thickness: int,
+        axes_x,
+        axes_y,
+        angle,
+        color_b,
+        color_g,
+        color_r,
+        thickness,
     ):
         bgr_image = self.toBgr()
         applied_image = bgr_image.copy()
@@ -37,13 +37,13 @@ class focacciaEllipse(Focaccia):
 
     def function(
         self,
-        axes_x: float,
-        axes_y: float,
-        angle: float,
-        color_b: float,
-        color_g: float,
-        color_r: float,
-        thickness: int,
+        axes_x,
+        axes_y,
+        angle,
+        color_b,
+        color_g,
+        color_r,
+        thickness,
     ):
         output = self.apply(axes_x, axes_y, angle, color_b, color_g, color_r, thickness)
         return self.score(output)
@@ -60,7 +60,7 @@ class focacciaEllipse(Focaccia):
             axes_x, axes_y, angle, color_b, color_g, color_r, thickness
         )
 
-    def optimize(self, n_trials: int):
+    def optimize(self, n_trials):
         study = optuna.create_study(direction="minimize")
         study.optimize(self.objective, n_trials=n_trials)
         self.best_axes_x = study.best_params["axes_x"]
