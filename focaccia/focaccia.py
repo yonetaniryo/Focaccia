@@ -1,8 +1,9 @@
+import cv2
 import matplotlib.pyplot as plt
+import numpy as np
 from skimage.io import imread
 from skimage.segmentation import slic
-import cv2
-import numpy as np
+
 
 class Focaccia:
   def __init__ (self, path: str, target_point: tuple[int, int], lambda_: float, inside: bool):

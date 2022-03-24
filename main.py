@@ -1,7 +1,7 @@
-from filters.hsv import focacciaHsv
-from filters.blur import focacciaBlur
-from filters.ellipse import focacciaEllipse
-from filters.radicalize import focacciaRadicalize
+from focaccia.filters.blur import focacciaBlur
+from focaccia.filters.ellipse import focacciaEllipse
+from focaccia.filters.hsv import focacciaHsv
+from focaccia.filters.radicalize import focacciaRadicalize
 
 # foc1 = focacciaHsv(
 #   path = 'assets/vegitables.jpg',
@@ -38,10 +38,7 @@ from filters.radicalize import focacciaRadicalize
 # foc4.optimize(100)
 
 foc5 = focacciaRadicalize(
-  path = 'assets/vegitables.jpg',
-  target_point = [250, 300],
-  lambda_ = 1e-20,
-  inside = True
+    path="assets/vegitables.jpg", target_point=[250, 300], lambda_=1e-20, inside=True
 )
 foc5.optimize(100)
 
